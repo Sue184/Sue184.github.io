@@ -141,8 +141,9 @@ section {
 }
 
 section#experiments-section {
-  grid-template-columns: [start] 1fr 1fr [end];
-  gap: calc(var(--lineHeight) * 1);
+  /* 与其它 section 统一列宽，确保 Motion 的内容与 Projects 的 content 列对齐 */
+  grid-template-columns: [start] 25% 1fr [end];
+  gap: var(--lineHeight);
 }
 
 footer {
@@ -326,7 +327,9 @@ h4 {
   100% {  }
 }
 
-h1:target, h2:target, h3:target {
+/* 目标锚点高亮；.flash 用于重复点击也能触发 */
+h1:target, h2:target, h3:target,
+h1.flash, h2.flash, h3.flash {
   animation: highlight 1s linear both;
   animation-delay: 0.6s;
 }
@@ -518,10 +521,17 @@ figure details summary {
   -webkit-backdrop-filter: blur(20px) saturate(120%) brightness(25%);
   backdrop-filter: blur(20px) saturate(120%) brightness(25%);
 
+  /* 使用 mask 显示 xmark：补齐 -webkit- 前缀并强制合成，避免首屏不绘制、交互后才出现 */
+  -webkit-mask-image: url(./image/xmark.png);
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: 50%;
   mask-image: url(./image/xmark.png);
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: 50%;
+  transform: translateZ(0);
+  will-change: transform, filter;
 
   list-style-type: none;
   cursor: pointer;
@@ -1013,7 +1023,7 @@ section#playlists-section {
         <div class="label" data-delay style="--delay: 2.4;">浏览器头图</div>
         <div class="content">
            <figure class="wide" style="aspect-ratio: 3 / 4;">
-          <video autoplay muted loop playsinline poster="./video/1_00375.jpg">
+          <video autoplay muted loop playsinline poster="./video/1_00375.png">
             <source src="./video/1.mp4">
           </video>
           <details name="video-details">
@@ -1029,7 +1039,7 @@ section#playlists-section {
         <div class="label" data-delay style="--delay: 2.4;">年度总结</div>
         <div class="content">
            <figure class="wide" style="aspect-ratio: 3 / 4;">
-          <video autoplay muted loop playsinline poster="./video/2_01140.jpg">
+          <video autoplay muted loop playsinline poster="./video/2_01140.png">
             <source src="./video/2.mp4">
           </video>
           <details name="video-details">
@@ -1045,7 +1055,7 @@ section#playlists-section {
         <div class="label" data-delay style="--delay: 2.4;">图库新春贴纸</div>
         <div class="content">
            <figure class="wide" style="aspect-ratio: 3 / 4;">
-          <video autoplay muted loop playsinline poster="./video/3_00104.jpg">
+          <video autoplay muted loop playsinline poster="./video/3_00104.png">
             <source src="./video/6.mp4">
           </video>
           <details name="video-details">
@@ -1061,7 +1071,7 @@ section#playlists-section {
         <div class="label" data-delay style="--delay: 2.4;">Aicy语音助手</div>
         <div class="content">
            <figure class="wide" style="aspect-ratio: 3 / 4;">
-          <video autoplay muted loop playsinline poster="./video/3_00104.jpg">
+          <video autoplay muted loop playsinline poster="./video/3_00104.png">
             <source src="./video/3.mp4">
           </video>
           <details name="video-details">
@@ -1077,7 +1087,7 @@ section#playlists-section {
         <div class="label" data-delay style="--delay: 2.4;">世界时钟添加优化</div>
         <div class="content">
            <figure class="wide" style="aspect-ratio: 1 / 1;">
-          <video autoplay muted loop playsinline poster="./video/5_00023.jpg">
+          <video autoplay muted loop playsinline poster="./video/5_00023.png">
             <source src="./video/5.mp4">
           </video>
           <details name="video-details">
@@ -1093,7 +1103,7 @@ section#playlists-section {
        <div class="label" data-delay style="--delay: 2.4;">魅族与iPhone手机互传</div>
         <div class="content">
            <figure class="wide" style="aspect-ratio: 1 / 1;">
-          <video autoplay muted loop playsinline poster="./video/4_00138.jpg">
+          <video autoplay muted loop playsinline poster="./video/4_00138.png">
             <source src="./video/4.mp4">
           </video>
           <details name="video-details">
@@ -1113,34 +1123,40 @@ section#playlists-section {
 
       <section id="experiments-section" data-delay style="--delay: 4;">
         <h2 id="motion">Motion</h2>
-        <figure class="wide" style="aspect-ratio: 16 / 9;">
-          <video autoplay muted loop playsinline poster="/video/7_00060.jpg">
-            <source src="./video/7.mp4">
-          </video>
-          <details name="video-details">
-            <summary aria-label="Video Details"><img src="./image/xmark.png"
-                alt="Video Details" loading="lazy"></summary>
-            <figcaption>
-               <h3>Flyme AIOS 新春特别版<a 
-                href="https://www.bilibili.com/video/BV1Y3rGBZELJ">视频</a>开幕</h3>
-            </figcaption>
-          </details>
-        </figure>
+        <div class="label" data-delay style="--delay: 2.4;">2026新春发布会</div>
+        <div class="content">
+          <figure style="aspect-ratio: 16 / 9;">
+            <video autoplay muted loop playsinline poster="./video/7_00060.png">
+              <source src="./video/7.mp4">
+            </video>
+            <details name="video-details">
+              <summary aria-label="Video Details"><img src="./image/xmark.png"
+                  alt="Video Details" loading="lazy"></summary>
+              <figcaption>
+                 <h3>Flyme AIOS 新春特别版<a 
+                  href="https://www.bilibili.com/video/BV1Y3rGBZELJ">视频</a>开幕</h3>
+              </figcaption>
+            </details>
+          </figure>
+        </div>
 
-        <figure class="wide" style="aspect-ratio: 16 / 9;">
-          <video autoplay muted loop playsinline poster="/video/8_00000.jpg">
-            <source src="./video/8.mp4">
-          </video>
-          <details name="video-details">
-            <summary aria-label="Video Details"><img src="./image/xmark.png"
-                alt="Video Details" loading="lazy"></summary>
-            <figcaption>
-              <p>
-                2021-2025期间的原创与商业作品
-              </p>
-            </figcaption>
-          </details>
-        </figure>
+        <div class="label" data-delay style="--delay: 2.4;">MG showreel</div>
+        <div class="content">
+          <figure style="aspect-ratio: 16 / 9;">
+            <video autoplay muted loop playsinline poster="./video/8_00000.png">
+              <source src="./video/8.mp4">
+            </video>
+            <details name="video-details">
+              <summary aria-label="Video Details"><img src="./image/xmark.png"
+                  alt="Video Details" loading="lazy"></summary>
+              <figcaption>
+                <p>
+                  2021-2025期间的原创与商业作品
+                </p>
+              </figcaption>
+            </details>
+          </figure>
+        </div>
       </section>
 
    
@@ -1221,6 +1237,23 @@ section#playlists-section {
     <script src="./lottie/lib/lottie.min.js"></script>
     <script>
       (() => {
+        // 让重复点击同一个导航锚点也能触发高亮
+        document.addEventListener('click', (e) => {
+          const a = e.target?.closest?.('a[href^="#"]');
+          if (!a) return;
+          const hash = a.getAttribute('href');
+          if (!hash || hash === '#') return;
+          const id = hash.slice(1);
+          const target = document.getElementById(id);
+          if (!target) return;
+
+          // 重新触发动画
+          target.classList.remove('flash');
+          void target.offsetWidth;
+          target.classList.add('flash');
+          setTimeout(() => target.classList.remove('flash'), 1500);
+        });
+
         const el = document.getElementById('avatar');
         if (!el) return;
 
